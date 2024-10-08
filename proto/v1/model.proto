@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package engine;
+
+enum Status {
+  Ok = 0;
+  Err = 1;
+}
+
+service Analyzer { rpc DoAnalyze(AnalyzeRequest) returns (AnalyzeResponse); }
+
+message AnalyzeRequest {
+  string name = 1; // holds file name, maybe infer language from file name whether it is C or C++
+  string code = 2; // buffer containing code
+}
+
+message AnalyzeResponse {
+  Status status = 1; // Ok if analysis is done, Err if something is wrong 
+  string report = 2; // contains string repr of report
+  string ir = 3;     // Ir in graphviz format, preferrably inlined for the sake of brevity
+}
